@@ -94,16 +94,16 @@ namespace UltrakillVineBoomMod
 			if (__instance.dead)
 				return;
 			LogSource.Death.LogInfo("An enemy has died... Y'know what that means :)");
-            if(Plugin.config.soundProgressivelyGetsLouder)
-            {
-                if (ModData.SoundVolume >= Plugin.config.soundMaximumVolume)
-				    LogSource.Death.LogWarning("Sound volume has reached maximum setting, not increasing the volume.");
-                else
-                {
-                    LogSource.Death.LogInfo("Sound volume is less than the maximum setting, increasing...");
-                    ModData.SoundVolume += Plugin.config.enemyGlobal;
-                }
-            }
+			if (Plugin.config.soundProgressivelyGetsLouder)
+			{
+				if (ModData.SoundVolume >= Plugin.config.soundMaximumVolume)
+					LogSource.Death.LogWarning("Sound volume has reached maximum setting, not increasing the volume.");
+				else
+				{
+					LogSource.Death.LogInfo("Sound volume is less than the maximum setting, increasing...");
+					ModData.SoundVolume += Plugin.config.enemyGlobal;
+				}
+			}
 			LogSource.Death.LogInfo("Playing the Vine Boom:tm: sound");
 			ModData.audioSource.PlayOneShot(ModData.audioClip, ModData.SoundVolume);
 
@@ -139,7 +139,7 @@ namespace UltrakillVineBoomMod
 
 	public class PluginConfig
 	{
-        
+
 		/* Sound section */
 		public bool soundProgressivelyGetsLouder;
 		public float soundMaximumVolume;
@@ -148,50 +148,50 @@ namespace UltrakillVineBoomMod
 
 		/* Timer section */
 		public bool timerEnabled;
-		public float decayIn;
-        /* Enemy-specific section */
-        public float enemyGlobal;
+		public float timerDecayIn;
+		/* Enemy-specific section */
+		public float enemyGlobal;
 
-        public PluginConfig(ConfigFile Config)
-        {
-            soundProgressivelyGetsLouder = Config.Bind("Sound",
+		public PluginConfig(ConfigFile Config)
+		{
+			soundProgressivelyGetsLouder = Config.Bind("Sound",
 													   "ProgressivelyGetsLouder",
 													   true,
 													   "Whether or not should the sound effect get progressively louder with each enemy kill")
 													   .Value;
-            soundMaximumVolume = Config.Bind("Sound",
+			soundMaximumVolume = Config.Bind("Sound",
 											 "MaximumVolume",
 											 1.0f,
 											 "What the maximum volume should be (1.0 is 100%)")
 											 .Value;
-            soundVolume = Config.Bind("Sound",
+			soundVolume = Config.Bind("Sound",
 									  "Volume",
 									  1.0f,
 									  "What the sound volume should be (this setting is not used if `ProgressivelyGetsLouder` setting is true)")
 									  .Value;
-            soundFilePath = Config.Bind("Sound",
+			soundFilePath = Config.Bind("Sound",
 										"FilePath",
 										"{{ModFolder}}/funny.mp3",
 										"What sound effect should be used")
 										.Value;
 
-            timerEnabled = Config.Bind("Timer",
+			timerEnabled = Config.Bind("Timer",
 									   "Enabled",
 									   true,
 									   "Whether the decay timer is enabled")
 									   .Value;
-            decayIn = Config.Bind("Timer",
+			timerDecayIn = Config.Bind("Timer",
 								  "DecayIn",
 								  ModData.DECAY_TIMER_INTERVAL,
 								  "When should the sound volume be reset in milliseconds")
 								  .Value;
 
-            enemyGlobal = Config.Bind("Enemy",
-                                      "Global",
-                                      0.1f,
-                                      "How much should the sound increase in volume for all enemy types")
-                                      .Value;
-        }
+			enemyGlobal = Config.Bind("Enemy",
+									  "Global",
+									  0.1f,
+									  "How much should the sound increase in volume for all enemy types")
+									  .Value;
+		}
 	}
 
 	[BepInPlugin(ModData.MOD_GUID, "*vine boom*", PluginInfo.PLUGIN_VERSION)]
@@ -222,14 +222,14 @@ namespace UltrakillVineBoomMod
 
 			/* Load config */
 			config = new(Config);
-            if(config.soundProgressivelyGetsLouder)
-                ModData.SoundVolume = config.soundVolume;
-            config.soundFilePath = config
-                                        .soundFilePath
-                                        .Replace(
-                                            "{{ModFolder}}", 
-                                            Application.streamingAssetsPath + "/mods/" + ModData.MOD_GUID + "/"
-                                        );
+			if (config.soundProgressivelyGetsLouder)
+				ModData.SoundVolume = config.soundVolume;
+			config.soundFilePath = config
+										.soundFilePath
+										.Replace(
+											"{{ModFolder}}",
+											Application.streamingAssetsPath + "/mods/" + ModData.MOD_GUID + "/"
+										);
 
 			/* Load the sound */
 			StartCoroutine(ModData.LoadAudioClipFromSA(config.soundFilePath));
