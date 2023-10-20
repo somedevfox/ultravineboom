@@ -1,6 +1,6 @@
 # ULTRAKILL: Vine Boom Mod
 
-WARNING: This creation nor it's creator is not affiliated with New Blood or Arsi "Hakita" Patala.
+WARNING: This creation nor it's creator are affiliated with New Blood or Arsi "Hakita" Patala.
 
 **ULTRAKILL: Vine Boom Mod** adds the vine boom sound whenever an enemy dies.
 
