@@ -101,7 +101,7 @@ namespace UltrakillVineBoomMod
                 else
                 {
                     LogSource.Death.LogInfo("Sound volume is less than the maximum setting, increasing...");
-                    ModData.SoundVolume += 0.1f;
+                    ModData.SoundVolume += Plugin.config.enemyGlobal;
                 }
             }
 			LogSource.Death.LogInfo("Playing the Vine Boom:tm: sound");
@@ -148,7 +148,9 @@ namespace UltrakillVineBoomMod
 
 		/* Timer section */
 		public bool timerEnabled;
-		public double decayIn;
+		public float decayIn;
+        /* Enemy-specific section */
+        public float enemyGlobal;
 
         public PluginConfig(ConfigFile Config)
         {
@@ -183,6 +185,12 @@ namespace UltrakillVineBoomMod
 								  ModData.DECAY_TIMER_INTERVAL,
 								  "When should the sound volume be reset in milliseconds")
 								  .Value;
+
+            enemyGlobal = Config.Bind("Enemy",
+                                      "Global",
+                                      0.1f,
+                                      "How much should the sound increase in volume for all enemy types")
+                                      .Value;
         }
 	}
 
